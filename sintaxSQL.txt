@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 CREATE DATABASE toksatria;
 
 USE toksatria;
@@ -53,3 +54,60 @@ CREATE TABLE pesanan_detail (
     FOREIGN KEY (produk_id) REFERENCES produk(id)
 );
 
+=======
+CREATE DATABASE toksatria;
+
+USE toksatria;
+
+CREATE TABLE users (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    username VARCHAR(50) NOT NULL,
+    email VARCHAR(100) UNIQUE NOT NULL,
+    password VARCHAR(255) NOT NULL,
+    level ENUM('admin', 'user') DEFAULT 'user',
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
+CREATE TABLE produk (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    nama_produk VARCHAR(100) NOT NULL,
+    harga INT NOT NULL,
+    harga_awal INT DEFAULT 0,
+    kota VARCHAR(100),
+    estimasi VARCHAR(50),
+    gambar VARCHAR(255)
+);
+
+CREATE TABLE keranjang (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    user_id INT,
+    produk_id INT,
+    qty INT,
+    FOREIGN KEY (user_id) REFERENCES users(id),
+    FOREIGN KEY (produk_id) REFERENCES produk(id)
+);
+
+CREATE TABLE pesanan (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    user_id INT,
+    produk_id INT,
+    jumlah INT,
+    total_harga INT,
+    status ENUM('pending', 'diproses', 'dikirim', 'selesai') DEFAULT 'pending',
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE,
+    FOREIGN KEY (produk_id) REFERENCES produk(id) ON DELETE CASCADE
+);
+
+
+CREATE TABLE pesanan_detail (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    pesanan_id INT,
+    produk_id INT,
+    qty INT,
+    harga DECIMAL(10,2),
+    FOREIGN KEY (pesanan_id) REFERENCES pesanan(id),
+    FOREIGN KEY (produk_id) REFERENCES produk(id)
+);
+
+>>>>>>> 05a43fb87eef9c446019207636c4bde5d90e718a
